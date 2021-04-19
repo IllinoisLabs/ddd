@@ -92,6 +92,6 @@ def scraper_main():
 
     df = pandas.read_csv(filepath_or_buffer=PROFESSOR_LIST_FILE, index_col="index")
     print(df)
-    pandas
+    
 
 scraper_main()
