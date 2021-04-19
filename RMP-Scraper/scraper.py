@@ -11,7 +11,6 @@ class RateMyProfScraper:
     def __init__(self, schoolid):
         self.UniversityId = schoolid
         self.professorlist = self.createprofessorlist()
-        self.indexnumber = False
 
     def createprofessorlist(
         self,
@@ -46,35 +45,6 @@ class RateMyProfScraper:
         )  # get the number of professors at William Paterson University
         return num_of_prof
 
-    def SearchProfessor(self, ProfessorName):
-        self.indexnumber = self.GetProfessorIndex(ProfessorName)
-        self.PrintProfessorInfo()
-        return self.indexnumber
-
-    def GetProfessorIndex(
-        self, ProfessorName
-    ):  # function searches for professor in list
-        for i in range(0, len(self.professorlist)):
-            if ProfessorName == (
-                self.professorlist[i]["tFname"] + " " + self.professorlist[i]["tLname"]
-            ):
-                return i
-        return False  # Return False is not found
-
-    def PrintProfessorInfo(self):  # print search professor's name and RMP score
-        if self.indexnumber == False:
-            print("error")
-        else:
-            print(self.professorlist[self.indexnumber])
-
-    def PrintProfessorDetail(self, key):  # print search professor's name and RMP score
-        if self.indexnumber == False:
-            print("error")
-            return "error"
-        else:
-            print(self.professorlist[self.indexnumber][key])
-            return self.professorlist[self.indexnumber][key]
-
 
 ILLINOIS_ID = 1112
 PROFESSOR_LIST_FILE = "data/professor_list.dat"
@@ -94,7 +64,9 @@ def create_prof_data():
     print("Creating data")
     UIUC = RateMyProfScraper(ILLINOIS_ID)
     df = pandas.DataFrame(UIUC.professorlist)
-    df.to_csv(path_or_buf=PROFESSOR_LIST_FILE, index_label="index")
+    df.to_csv(
+        path_or_buf=PROFESSOR_LIST_FILE, index_label="index", columns=COL_TO_WRITE
+    )
 
 
 def should_update_data():
@@ -120,6 +92,6 @@ def scraper_main():
 
     df = pandas.read_csv(filepath_or_buffer=PROFESSOR_LIST_FILE, index_col="index")
     print(df)
-
+    pandas
 
 scraper_main()
